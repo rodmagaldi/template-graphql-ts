@@ -1,0 +1,40 @@
+{
+  "name": "template-graphql-ts",
+  "version": "1.0.0",
+  "description": "Template Nodejs GraphQL Apollo Server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
+    "test": "ENV=test mocha -r ts-node/register -r tsconfig-paths/register --exit --timeout 30000 src/test/index.ts"
+  },
+  "repository": "https://github.com/rodmagaldi/template-graphql-ts.git",
+  "author": "Rodrigo Magaldi <rod.magaldi@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "2.21.0",
+    "dotenv": "8.2.0",
+    "pg": "8.5.1",
+    "reflect-metadata": "0.1.13",
+    "type-graphql": "^1.1.1",
+    "typedi": "^0.10.0",
+    "typeorm": "0.2.31"
+  },
+  "devDependencies": {
+    "@types/chai": "4.2.15",
+    "@types/mocha": "8.2.0",
+    "@types/node": "14.14.28",
+    "@types/supertest": "2.0.10",
+    "@typescript-eslint/eslint-plugin": "4.15.1",
+    "@typescript-eslint/parser": "4.15.1",
+    "chai": "4.3.0",
+    "eslint": "7.20.0",
+    "graphql": "^15.5.0",
+    "mocha": "8.3.0",
+    "prettier": "2.2.1",
+    "supertest": "6.1.3",
+    "ts-node": "9.1.1",
+    "ts-node-dev": "1.1.1",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.1.5"
+  }
+}
