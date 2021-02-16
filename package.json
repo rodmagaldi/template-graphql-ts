@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
-    "test": "ENV=test mocha -r ts-node/register -r tsconfig-paths/register --exit --timeout 30000 src/test/index.ts"
+    "test": "ENV=test mocha -r ts-node/register -r tsconfig-paths/register --exit --timeout 30000 src/test/index.ts",
+    "lint": "eslint --fix --ext .js,.ts src"
   },
   "repository": "https://github.com/rodmagaldi/template-graphql-ts.git",
   "author": "Rodrigo Magaldi <rod.magaldi@gmail.com>",
@@ -28,7 +29,9 @@
     "@typescript-eslint/parser": "4.15.1",
     "chai": "4.3.0",
     "eslint": "7.20.0",
-    "graphql": "^15.5.0",
+    "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-prettier": "3.3.1",
+    "graphql": "15.5.0",
     "mocha": "8.3.0",
     "prettier": "2.2.1",
     "supertest": "6.1.3",
