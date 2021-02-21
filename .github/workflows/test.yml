@@ -1,0 +1,29 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - develop
+  push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get NODE_VERSION from package.json
+        id: node_version
+        run: echo ::set-output name=NODE_VERSION::$(node -pe node -pe "require('./package.json').engines.node")
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
+
+      - name: Install packages
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Setting database
+        run: docker-compose up -d
+      - name: Running tests
+        run: npm run test
