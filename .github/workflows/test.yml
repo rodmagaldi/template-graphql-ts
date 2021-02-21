@@ -3,7 +3,6 @@ on:
   pull_request:
     branches:
       - develop
-  push
 
 jobs:
   test:
