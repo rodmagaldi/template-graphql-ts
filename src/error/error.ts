@@ -1,7 +1,7 @@
 import { formatError, GraphQLFormattedError } from 'graphql';
 import { ArgumentValidationError } from 'type-graphql';
 
-enum StatusCode {
+export enum StatusCode {
   Success = 200,
   BadRequest = 400,
   Unauthorized = 401,
