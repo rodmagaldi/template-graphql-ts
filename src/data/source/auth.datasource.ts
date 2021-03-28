@@ -7,7 +7,7 @@ import { User } from '../db/entity';
 export class AuthDatasource {
   userRepository = getRepository(User);
 
-  createUser = async (user: SignUpInputModel) => {
+  createUser = async (user: SignUpInputModel): Promise<User> => {
     const newUser = this.userRepository.create({
       cpf: user.cpf,
       email: user.email,
@@ -15,14 +15,15 @@ export class AuthDatasource {
       firstName: user.firstName,
       lastName: user.lastName,
     });
-    this.userRepository.save(newUser);
+    await this.userRepository.save(newUser);
+    return newUser;
   };
 
-  findUserByEmail = async (email: string) => {
+  findUserByEmail = async (email: string): Promise<User> => {
     return this.userRepository.findOne({ email });
   };
 
-  findUserByCpf = async (cpf: string) => {
+  findUserByCpf = async (cpf: string): Promise<User> => {
     return this.userRepository.findOne({ cpf });
   };
 }

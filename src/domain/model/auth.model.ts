@@ -5,7 +5,12 @@ export interface SignUpInputModel {
   firstName: string;
   lastName: string;
 }
-
-export interface SignUpModel {
+export interface LoginInputModel {
   cpf: string;
+  password: string;
+  rememberMe?: boolean;
+}
+
+export interface LoginModel {
+  token: string;
 }
