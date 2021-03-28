@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
-import { HelloWorldModel } from 'domain/model/hello-world.model';
 import { Query, Resolver } from 'type-graphql';
-import { HelloWorldType } from './type/hello-world.type';
-import { HelloWorldUseCase } from 'domain/hello-world/hello-world.use-case';
+import { HelloWorldModel } from '@domain/model';
+import { HelloWorldUseCase } from '@domain/hello-world';
+import { HelloWorldType } from '@server/graphql/module/hello-world/type';
 
 @Service()
 @Resolver()

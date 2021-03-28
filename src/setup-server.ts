@@ -1,12 +1,9 @@
 import { ApolloServer } from 'apollo-server';
-// import { User } from 'entity/user';
-// import { resolvers } from 'graphql/resolvers';
-// import { typeDefs } from 'graphql/typeDefs';
 import { Container } from 'typedi';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { envConfig } from 'env-config';
-import { formatError } from 'error/error';
+import { errorFormatter } from 'error/error';
 
 export async function setup() {
   envConfig();
@@ -19,11 +16,11 @@ export async function connectToDatabase() {
     await createConnection({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [],
-      synchronize: false,
+      entities: [__dirname + '/data/db/entity/index.{ts,js}'],
+      synchronize: true,
       logging: false,
     });
-    console.log('Database connection successful\n');
+    console.log('Database connection successful');
   } catch (err) {
     throw err;
   }
@@ -37,7 +34,7 @@ export async function runServer() {
 
   const server = new ApolloServer({
     schema,
-    formatError: formatError,
+    formatError: errorFormatter,
     context: ({ req }) => {
       return {
         token: req.headers.authorization,
