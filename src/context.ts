@@ -12,11 +12,11 @@ export interface ContextParameters {
 
 export const context = async ({ req }: ContextParameters): Promise<ServerContext> => {
   try {
-    const token = req?.headers?.authorization?.split(' ')[1];
+    const token = req?.headers?.authorization;
     const jwtService = new JwtService();
     const data = token && jwtService.verifyToken(token);
     return {
-      id: data?.id,
+      id: data['data']?.id,
     };
   } catch (error) {
     console.log(`Error on context:`, error);

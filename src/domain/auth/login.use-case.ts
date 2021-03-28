@@ -29,6 +29,6 @@ export class LoginUseCase {
 
     const token = this.jwtService.generateToken(user.id, rememberMe);
 
-    return { token: `Bearer ${token}` };
+    return { token };
   }
 }
