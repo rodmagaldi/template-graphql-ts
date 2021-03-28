@@ -1,15 +1,17 @@
 import { ServerContext } from '@server/context';
 import { BaseError, ErrorType } from '@server/error/error';
-import { MiddlewareFn } from 'type-graphql';
+import { MiddlewareInterface, NextFn, ResolverData } from 'type-graphql';
+import { Service } from 'typedi';
 
-export const AuthorizationMiddleware: MiddlewareFn<ServerContext> = (action, next): Promise<any> => {
-  console.log('1');
+@Service()
+export class AuthorizationMiddleware implements MiddlewareInterface<ServerContext> {
+  async use({ context }: ResolverData<ServerContext>, next: NextFn) {
+    const userId = context?.id;
 
-  const userId = action.context?.id;
+    if (!userId) {
+      throw new BaseError(ErrorType.UnauthorizedError, 'Usuário sem credenciais válidas.');
+    }
 
-  if (!userId) {
-    throw new BaseError(ErrorType.UnauthorizedError, 'Usuário sem credenciais válidas.');
+    return next();
   }
-
-  return next();
-};
+}
