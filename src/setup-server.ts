@@ -4,6 +4,7 @@ import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { envConfig } from 'env-config';
 import { errorFormatter } from 'error/error';
+import { context } from '@server/context';
 
 export async function setup() {
   envConfig();
@@ -28,18 +29,14 @@ export async function connectToDatabase() {
 
 export async function runServer() {
   const schema = await buildSchema({
-    resolvers: [__dirname + '/graphql/**/*.resolver.ts'],
+    resolvers: [__dirname + '/graphql/module/**/*.resolver.ts'],
     container: Container,
   });
 
   const server = new ApolloServer({
     schema,
     formatError: errorFormatter,
-    context: ({ req }) => {
-      return {
-        token: req.headers.authorization,
-      };
-    },
+    context,
   });
 
   await server.listen(process.env.PORT);

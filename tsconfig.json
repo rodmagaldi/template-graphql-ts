@@ -49,6 +49,8 @@
       "@server/*": ["./*"],
       "@data": ["./data"],
       "@data/*": ["./data/*"],
+      "@core": ["./core"],
+      "@core/*": ["./core/*"],
       "@domain": ["./domain"],
       "@domain/*": ["./domain/*"],
       "@graphql": ["./graphql"],

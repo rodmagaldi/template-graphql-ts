@@ -3,4 +3,3 @@
  */
 
 export * from './login.type';
-export * from './sign-up.type';
