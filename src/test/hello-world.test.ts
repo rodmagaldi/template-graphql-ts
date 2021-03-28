@@ -23,7 +23,16 @@ describe('GraphQL - Hello World resolver', () => {
     requestMaker.refreshAuth();
   });
 
-  it('should return the string `Hello, World!`', async () => {
+  it('should return the string corresponding to user id', async () => {
+    const response = await requestMaker.postGraphQL<{ helloWorld: HelloWorldModel }>(query);
+    console.log(response.body);
+
+    expect(response.body.data.helloWorld.helloWorld).to.be.a('string');
+    expect(response.body.data.helloWorld.helloWorld).be.eq(mockedUserId);
+  });
+
+  it('should throw error for unauthenticated user', async () => {
+    requestMaker.removeAuth();
     const response = await requestMaker.postGraphQL<{ helloWorld: HelloWorldModel }>(query);
     console.log(response.body);
 
