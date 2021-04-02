@@ -14,13 +14,14 @@ export async function setup() {
 
 export async function connectToDatabase() {
   try {
-    await createConnection({
+    const connection = await createConnection({
       type: 'postgres',
       url: process.env.DATABASE_URL,
       entities: [__dirname + '/data/db/entity/index.{ts,js}'],
       synchronize: true,
       logging: false,
     });
+    connection.runMigrations();
     console.log('Database connection successful');
   } catch (err) {
     throw err;
