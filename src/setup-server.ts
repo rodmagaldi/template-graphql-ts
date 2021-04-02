@@ -21,6 +21,7 @@ export async function connectToDatabase() {
       synchronize: true,
       logging: false,
     });
+    // Run migrations so test database is properly setup to Github's testing workflow
     connection.runMigrations();
     console.log('Database connection successful');
   } catch (err) {

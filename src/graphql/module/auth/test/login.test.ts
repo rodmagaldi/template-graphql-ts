@@ -52,8 +52,6 @@ describe('GraphQL - Auth Resolver - Login', () => {
       },
     });
 
-    console.log(response.body);
-
     const token = response.body.data.login.token;
     expect(token).to.be.a('string');
     expect(token.split(' ')[0]).to.be.eq('Bearer');
