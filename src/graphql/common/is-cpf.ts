@@ -18,7 +18,7 @@ export function IsCpf(property?: string, validationOptions?: ValidationOptions) 
           if (!validator.isNumeric(validationArguments.value, { no_symbols: true })) {
             return 'Formato do CPF inválido, utilize apenas os dígitos.';
           }
-          return 'CPF inválido';
+          return 'CPF inválido.';
         },
       },
     });

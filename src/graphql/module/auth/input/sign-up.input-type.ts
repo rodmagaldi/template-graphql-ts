@@ -10,7 +10,7 @@ export class SignUpInputType implements SignUpInputModel {
   cpf: string;
 
   @Field({ description: 'User email' })
-  @IsEmail()
+  @IsEmail(undefined, { message: 'E-mail inválido.' })
   email: string;
 
   @Field({ description: 'User password' })

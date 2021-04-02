@@ -26,4 +26,8 @@ export class AuthDatasource {
   findUserByCpf = async (cpf: string): Promise<User> => {
     return this.userRepository.findOne({ cpf });
   };
+
+  findUserById = async (id: string): Promise<User> => {
+    return this.userRepository.findOne({ id });
+  };
 }

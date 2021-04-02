@@ -19,11 +19,6 @@ export class RequestMaker {
 
   private readonly port: number = parseInt(process.env.PORT);
 
-  /** Refreshes Client and User authentication token loging in with default user 'admin@taqtile.com'
-   * Token can be ater accessed by local property `this.token`
-   *
-   * @param app Reference to Express application
-   */
   refreshAuth(): string {
     const jwtResponse = this.jwtService.generateToken('1');
 
@@ -33,20 +28,11 @@ export class RequestMaker {
     return this.token;
   }
 
-  /** Remove User authentication token
-   */
   removeAuth(): void {
     this.token = null;
   }
 
-  /** Performs POST request to graphQL engine on express app
-   *
-   * @param query Query/mutation to be sent to GraphQL
-   * @param variables Object to be send to graphQL as variables
-   * @param expectedStatus Value to assert HTTP responsestatus. Defaults to undefined
-   */
   async postGraphQL<T, I = any>(
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     query: any,
     variables?: I,
     token?: string,
@@ -62,7 +48,6 @@ export class RequestMaker {
 
     agent.set('Content-Type', 'application/json');
 
-    // Check if gql-tag is being used
     if (query.kind === 'Document') {
       query = print(query);
     }

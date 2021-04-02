@@ -16,7 +16,7 @@ export const context = async ({ req }: ContextParameters): Promise<ServerContext
     const jwtService = new JwtService();
     const data = token && jwtService.verifyToken(token);
     return {
-      id: data['data']?.id,
+      id: data?.data?.id,
     };
   } catch (error) {
     console.log(`Error on context:`, error);

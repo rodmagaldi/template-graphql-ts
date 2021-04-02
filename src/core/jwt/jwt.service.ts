@@ -1,3 +1,4 @@
+import { ServerContext } from '@server/context';
 import { sign, verify } from 'jsonwebtoken';
 import { Service } from 'typedi';
 
@@ -11,7 +12,11 @@ export class JwtService {
   };
 
   verifyToken = (token: string) => {
-    const decoded = verify(token.split(' ')[1], process.env.JWT_SECRET);
+    const decoded = verify(token.split(' ')[1], process.env.JWT_SECRET) as {
+      iat: string;
+      exp: string;
+      data: ServerContext;
+    };
     return decoded;
   };
 }

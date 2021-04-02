@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { gql } from 'apollo-server-express';
 import { RequestMaker } from '@test/request-maker';
 import { HelloWorldModel } from '@server/domain/model';
-import { checkError } from './check-error';
+import { checkError } from '../../../../test/check-error';
 import { ErrorType, StatusCode } from '@server/error/error';
 
 describe('GraphQL - Hello World resolver', () => {
