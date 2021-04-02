@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { gql } from 'apollo-server-express';
 import { RequestMaker } from '@test/request-maker';
 import { LoginModel, SignUpInputModel } from '@server/domain/model';
-import { checkError, checkValidationError } from '@test/check-error';
+import { checkError, checkValidationError } from '@server/test/checker';
 import { ErrorType, StatusCode } from '@server/error/error';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '@server/data/db/entity';

@@ -1,22 +1,17 @@
-import { expect } from 'chai';
 import { gql } from 'apollo-server-express';
 import { RequestMaker } from '@test/request-maker';
 import { LoginInputModel, LoginModel } from '@server/domain/model';
-import { checkError, checkValidationError } from '@test/check-error';
+import { checkError, checkJWT, checkValidationError } from '@server/test/checker';
 import { ErrorType, StatusCode } from '@server/error/error';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '@server/data/db/entity';
 import * as cpf from 'cpf';
 import { internet } from 'faker';
-import { JwtService } from '@server/core/jwt/jwt.service';
-import Container from 'typedi';
 import { mockUsers } from '@server/test/mock';
 
 describe('GraphQL - Auth Resolver - Login', () => {
   let requestMaker: RequestMaker;
   let userRespository: Repository<User>;
-  let jwtService: JwtService;
-  const uuidRE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
   const query = gql`
     mutation Login($data: LoginInputType!) {
@@ -30,7 +25,10 @@ describe('GraphQL - Auth Resolver - Login', () => {
     requestMaker = new RequestMaker();
     userRespository = getRepository(User);
     await userRespository.clear();
-    jwtService = Container.get(JwtService);
+  });
+
+  beforeEach(async () => {
+    await userRespository.clear();
   });
 
   afterEach(async () => {
@@ -45,18 +43,24 @@ describe('GraphQL - Auth Resolver - Login', () => {
     const sampleCpf = cpf.generate(false);
     const samplePassword = internet.password();
     mockUsers(1, { userCpf: sampleCpf, userPassword: samplePassword });
-    const response = await requestMaker.postGraphQL<{ login: LoginModel }, { data: LoginInputModel }>(query, {
+    let response = await requestMaker.postGraphQL<{ login: LoginModel }, { data: LoginInputModel }>(query, {
       data: {
         cpf: sampleCpf,
         password: samplePassword,
       },
     });
+    let token = response.body.data.login.token;
+    checkJWT(token);
 
-    const token = response.body.data.login.token;
-    expect(token).to.be.a('string');
-    expect(token.split(' ')[0]).to.be.eq('Bearer');
-    const decodedToken = jwtService.verifyToken(token);
-    expect(uuidRE.test(decodedToken.data.id)).to.true;
+    response = await requestMaker.postGraphQL<{ login: LoginModel }, { data: LoginInputModel }>(query, {
+      data: {
+        cpf: sampleCpf,
+        password: samplePassword,
+        rememberMe: true,
+      },
+    });
+    token = response.body.data.login.token;
+    checkJWT(token, true);
   });
 
   it('should throw error for unsuccessful login (wrong cpf)', async () => {

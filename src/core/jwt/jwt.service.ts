@@ -13,8 +13,8 @@ export class JwtService {
 
   verifyToken = (token: string) => {
     const decoded = verify(token.split(' ')[1], process.env.JWT_SECRET) as {
-      iat: string;
-      exp: string;
+      iat: number;
+      exp: number;
       data: ServerContext;
     };
     return decoded;
