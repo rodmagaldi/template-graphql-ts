@@ -28,14 +28,19 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
     }
   `;
 
-  before(() => {
+  before(async () => {
     requestMaker = new RequestMaker();
     userRespository = getRepository(User);
+    await userRespository.clear();
     authDatasource = Container.get(AuthDatasource);
     jwtService = Container.get(JwtService);
   });
 
   afterEach(async () => {
+    await userRespository.clear();
+  });
+
+  after(async () => {
     await userRespository.clear();
   });
 
