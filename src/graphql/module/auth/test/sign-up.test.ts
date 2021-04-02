@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { gql } from 'apollo-server-express';
 import { RequestMaker } from '@test/request-maker';
 import { LoginModel, SignUpInputModel } from '@server/domain/model';
-import { checkError, myCheckError } from '@test/check-error';
+import { checkError, checkValidationError } from '@test/check-error';
 import { ErrorType, StatusCode } from '@server/error/error';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '@server/data/db/entity';
@@ -71,7 +71,7 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
       },
     });
 
-    myCheckError(response, 'InvalidDataError', StatusCode.BadRequest, 'CPF inválido.');
+    checkValidationError(response, 'InvalidDataError', StatusCode.BadRequest, 'CPF inválido.');
   });
 
   it('should throw error for invalid cpf format', async () => {
@@ -85,7 +85,7 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
       },
     });
 
-    myCheckError(
+    checkValidationError(
       response,
       'InvalidDataError',
       StatusCode.BadRequest,
@@ -120,7 +120,7 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
       },
     });
 
-    myCheckError(response, 'InvalidDataError', StatusCode.BadRequest, 'E-mail inválido.');
+    checkValidationError(response, 'InvalidDataError', StatusCode.BadRequest, 'E-mail inválido.');
   });
 
   it('should throw error for cpf already in use', async () => {

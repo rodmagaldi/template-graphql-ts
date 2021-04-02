@@ -12,7 +12,12 @@ export function checkError(res: GraphQLResponse<any>, errorType: ErrorType, code
   }
 }
 
-export function myCheckError(res: GraphQLResponse<any>, errorName: string, code: number, message?: string): void {
+export function checkValidationError(
+  res: GraphQLResponse<any>,
+  errorName: string,
+  code: number,
+  message?: string,
+): void {
   expect(res.body.data).to.be.null;
   expect(res.body.errors[0].name).to.be.eq(errorName);
   expect(res.body.errors[0].code).to.be.eq(code);
