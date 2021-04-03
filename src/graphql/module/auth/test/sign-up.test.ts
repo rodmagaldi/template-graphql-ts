@@ -2,13 +2,12 @@ import { expect } from 'chai';
 import { gql } from 'apollo-server-express';
 import { RequestMaker } from '@test/request-maker';
 import { LoginModel, SignUpInputModel } from '@server/domain/model';
-import { checkError, checkValidationError } from '@server/test/checker';
+import { checkError, checkJWT, checkValidationError } from '@server/test/checker';
 import { ErrorType, StatusCode } from '@server/error/error';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '@server/data/db/entity';
 import * as cpf from 'cpf';
 import { internet, name } from 'faker';
-import { JwtService } from '@server/core/jwt/jwt.service';
 import Container from 'typedi';
 import { AuthDatasource } from '@server/data/source/auth.datasource';
 import { mockUsers } from '@server/test/mock';
@@ -17,9 +16,6 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
   let requestMaker: RequestMaker;
   let userRespository: Repository<User>;
   let authDatasource: AuthDatasource;
-  let jwtService: JwtService;
-  const uuidRE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-
   const query = gql`
     mutation SignUp($data: SignUpInputType!) {
       signUp(data: $data) {
@@ -33,7 +29,6 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
     userRespository = getRepository(User);
     await userRespository.clear();
     authDatasource = Container.get(AuthDatasource);
-    jwtService = Container.get(JwtService);
   });
 
   afterEach(async () => {
@@ -45,10 +40,11 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
   });
 
   it('should successfully register user', async () => {
+    const sampleEmail = internet.email();
     const response = await requestMaker.postGraphQL<{ signUp: LoginModel }, { data: SignUpInputModel }>(query, {
       data: {
         cpf: cpf.generate(false),
-        email: internet.email(),
+        email: sampleEmail,
         firstName: name.firstName(),
         lastName: name.lastName(),
         password: internet.password(),
@@ -56,13 +52,10 @@ describe('GraphQL - Auth Resolver - Sign Up', () => {
     });
 
     const token = response.body.data.signUp.token;
-    expect(token).to.be.a('string');
-    expect(token.split(' ')[0]).to.be.eq('Bearer');
-    const decodedToken = jwtService.verifyToken(token);
-    expect(uuidRE.test(decodedToken.data.id)).to.true;
+    checkJWT(token);
 
-    const newUser = await authDatasource.findUserById(decodedToken.data.id);
-    expect(newUser.id).to.eq(decodedToken.data.id);
+    const newUser = await authDatasource.findUserByEmail(sampleEmail);
+    expect(newUser.email).to.eq(sampleEmail);
   });
 
   it('should throw error for invalid cpf', async () => {
