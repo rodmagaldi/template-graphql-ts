@@ -3,9 +3,9 @@ import { HelloWorldModel } from 'domain/model/hello-world.model';
 
 @Service()
 export class HelloWorldUseCase {
-  exec(): HelloWorldModel {
+  exec(userId: string): HelloWorldModel {
     return {
-      helloWorld: 'Hello, World!',
+      helloWorld: userId,
     };
   }
 }

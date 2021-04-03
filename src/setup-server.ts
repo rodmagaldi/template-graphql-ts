@@ -1,12 +1,10 @@
 import { ApolloServer } from 'apollo-server';
-// import { User } from 'entity/user';
-// import { resolvers } from 'graphql/resolvers';
-// import { typeDefs } from 'graphql/typeDefs';
 import { Container } from 'typedi';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { envConfig } from 'env-config';
-import { formatError } from 'error/error';
+import { errorFormatter } from 'error/error';
+import { context } from '@server/context';
 
 export async function setup() {
   envConfig();
@@ -16,14 +14,16 @@ export async function setup() {
 
 export async function connectToDatabase() {
   try {
-    await createConnection({
+    const connection = await createConnection({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [],
-      synchronize: false,
+      entities: [__dirname + '/data/db/entity/index.{ts,js}'],
+      synchronize: true,
       logging: false,
     });
-    console.log('Database connection successful\n');
+    // Run migrations so test database is properly setup to Github's testing workflow
+    connection.runMigrations();
+    console.log('Database connection successful');
   } catch (err) {
     throw err;
   }
@@ -31,18 +31,14 @@ export async function connectToDatabase() {
 
 export async function runServer() {
   const schema = await buildSchema({
-    resolvers: [__dirname + '/graphql/**/*.resolver.ts'],
+    resolvers: [__dirname + '/graphql/module/**/*.resolver.ts'],
     container: Container,
   });
 
   const server = new ApolloServer({
     schema,
-    formatError: formatError,
-    context: ({ req }) => {
-      return {
-        token: req.headers.authorization,
-      };
-    },
+    formatError: errorFormatter,
+    context,
   });
 
   await server.listen(process.env.PORT);

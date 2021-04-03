@@ -28,4 +28,9 @@ jobs:
         run: npm run test
     env:
       DATABASE_URL: postgres://admin:admin@localhost:5433/testdb
-      PORT: 3001
+      PORT: 7778
+      NODE_ENV: development
+      ERROR_SHOW_EXTENSIONS: 'false'
+      JWT_SECRET: secret
+      JWT_EXPIRATION: 1h
+      JWT_REMEMBER_ME_EXPIRATION: 12h
