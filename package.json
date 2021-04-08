@@ -12,7 +12,8 @@
     "test": "NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register --exit --timeout 30000 src/test/index.ts",
     "lint": "eslint --fix --ext .js,.ts src",
     "seed": "ts-node -r tsconfig-paths/register src/test/seed/index.ts",
-    "seed:test": "NODE_ENV=test ts-node -r tsconfig-paths/register src/test/seed/index.ts"
+    "seed:test": "NODE_ENV=test ts-node -r tsconfig-paths/register src/test/seed/index.ts",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "repository": "https://github.com/rodmagaldi/template-graphql-ts.git",
   "author": "Rodrigo Magaldi <rod.magaldi@gmail.com>",

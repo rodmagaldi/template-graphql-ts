@@ -22,7 +22,9 @@ export async function connectToDatabase() {
       logging: false,
     });
     // Run migrations so test database is properly setup to Github's testing workflow
-    connection.runMigrations();
+    if (process.env.NODE_ENV === 'test') {
+      await connection.runMigrations();
+    }
     console.log('Database connection successful');
   } catch (err) {
     throw err;
