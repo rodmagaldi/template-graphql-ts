@@ -1,9 +1,8 @@
-import { v4 as generateUUID } from 'uuid';
-import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class User {
-  @PrimaryColumn('varchar')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ default: true })
@@ -29,9 +28,4 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @BeforeInsert()
-  generateId() {
-    this.id = generateUUID();
-  }
 }
