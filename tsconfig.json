@@ -53,8 +53,10 @@
       "@core/*": ["./core/*"],
       "@domain": ["./domain"],
       "@domain/*": ["./domain/*"],
-      "@graphql": ["./graphql"],
-      "@graphql/*": ["./graphql/*"],
+      "@graphql": ["./api/graphql"],
+      "@graphql/*": ["./api/graphql/*"],
+      "@rest": ["./api/rest"],
+      "@rest/*": ["./api/rest/*"],
       "@test": ["./test"],
       "@test/*": ["./test/*"]
     },

@@ -30,4 +30,11 @@ export class AuthDatasource {
   findUserById = async (id: string): Promise<User> => {
     return this.userRepository.findOne({ id });
   };
+
+  updateUserAvatar = async (id: string, avatarUrl: string): Promise<User> => {
+    const user = await this.userRepository.findOne({ id });
+    user.avatar = avatarUrl;
+    await this.userRepository.save(user);
+    return user;
+  };
 }

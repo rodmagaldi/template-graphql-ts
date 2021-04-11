@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { HelloWorldModel } from '@domain/model';
 import { HelloWorldUseCase } from '@domain/hello-world';
-import { HelloWorldType } from '@server/graphql/module/hello-world/type';
+import { HelloWorldType } from '@graphql/module/hello-world/type';
 import { ServerContext } from '@server/context';
 import { AuthorizationMiddleware } from '@server/auth.middleware';
 
