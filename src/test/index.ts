@@ -7,5 +7,5 @@ before(async () => {
 
 // require all test barrels here
 
-require('graphql/module/hello-world/test');
-require('graphql/module/auth/test');
+require('api/graphql/module/hello-world/test');
+require('api/graphql/module/auth/test');

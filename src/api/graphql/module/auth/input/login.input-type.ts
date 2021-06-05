@@ -1,4 +1,4 @@
-import { LoginInputModel } from '@server/domain/model';
+import { LoginInputModel } from '@domain/model';
 import { IsCpf } from '@graphql/common';
 import { Field, InputType } from 'type-graphql';
 

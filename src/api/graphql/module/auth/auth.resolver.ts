@@ -1,9 +1,9 @@
 import { Service } from 'typedi';
 import { Arg, Mutation, Resolver } from 'type-graphql';
-import { LoginInputType, SignUpInputType } from '@server/graphql/module/auth/input';
-import { LoginType } from '@server/graphql/module/auth/type';
-import { LoginModel } from '@server/domain/model';
-import { SignUpUseCase, LoginUseCase } from '@server/domain/auth';
+import { LoginInputType, SignUpInputType } from '@graphql/module/auth/input';
+import { LoginType } from '@graphql/module/auth/type';
+import { LoginModel } from '@domain/model';
+import { SignUpUseCase, LoginUseCase } from '@domain/auth';
 
 @Service()
 @Resolver()

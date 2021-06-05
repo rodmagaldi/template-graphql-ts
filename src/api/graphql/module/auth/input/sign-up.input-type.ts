@@ -1,4 +1,4 @@
-import { SignUpInputModel } from '@server/domain/model';
+import { SignUpInputModel } from '@domain/model';
 import { IsCpf } from '@graphql/common';
 import { Field, InputType } from 'type-graphql';
 import { IsEmail } from 'class-validator';
